@@ -49,7 +49,7 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-	axios.get("/config/config.xml")
+	axios.get("./config/config.xml")
     .then(res => {
     	const parser=new DOMParser();
     	const dom = parser.parseFromString(res.data, "text/xml");
@@ -98,7 +98,7 @@ class App extends React.Component {
   open = (item) => {
     // 关闭遮罩
     this.onClose();
-    var dir = "/mds/";
+    var dir = "./mds/";
     var title = this.title(item);
     var isPublic = this.isPublic(item);
     if (isPublic === false && (null === this.state.aes_key || "" === this.state.aes_key)) {
