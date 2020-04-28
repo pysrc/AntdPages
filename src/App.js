@@ -98,7 +98,7 @@ class App extends React.Component {
   open = (item) => {
     // 关闭遮罩
     this.onClose();
-    var dir = "./mds/";
+    const dir = "./mds/";
     var title = this.title(item);
     var isPublic = this.isPublic(item);
     if (isPublic === false && (null === this.state.aes_key || "" === this.state.aes_key)) {
@@ -106,10 +106,10 @@ class App extends React.Component {
       return;
     }
     var parse = (title, data) => {
-      var dir = title.replace("*", "\\*").replace("+", "\\+");
+      var path = title.replace("*", "\\*").replace("+", "\\+");
       // 将markdown中的资源地址替换为真实的网址
-      var re = new RegExp("\\[(.*?)\\]\\((" + dir + "\\/.*?)\\)", "g");
-      var text = data.replace(re, "[$1](" + /mds/ + "$2)");
+      var re = new RegExp("\\[(.*?)\\]\\((" + path + "\\/.*?)\\)", "g");
+      var text = data.replace(re, "[$1](" + dir + "$2)");
       var html = $('<div>' + marked(text) + '</div>');
       // 将代码块背景美化一下
       html.children("pre").each(function(i, block) {
