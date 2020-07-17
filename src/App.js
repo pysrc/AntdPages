@@ -14,7 +14,6 @@ import axios from 'axios';
 import * as CryptoJS from 'crypto-js';
 import md5 from 'md5';
 
-
 const {Content, Sider, Footer} = Layout;
 const {SubMenu} = Menu;
 const {Search} = Input;
@@ -110,6 +109,9 @@ class App extends React.Component {
       // 将markdown中的资源地址替换为真实的网址
       var re = new RegExp("\\[(.*?)\\]\\((" + path + "\\/.*?)\\)", "g");
       var text = data.replace(re, "[$1](" + dir + "$2)");
+      text = text.replace(/(\$\$[\s\S]+?\$\$)/g, function(m, p) {
+              return p.replace(/\\\\/g, "\\\\\\\\");
+            });
       var html = $('<div>' + marked(text) + '</div>');
       // 将代码块背景美化一下
       html.children("pre").each(function(i, block) {
@@ -120,8 +122,9 @@ class App extends React.Component {
         "tags": this.tags(item),
         "md_html": html.prop("outerHTML")
       });
+      window.convert();
     }
-    axios.get(dir + title + '.en')
+    axios.get(dir + title + '.md')
       .then(res => {
         if (isPublic) {
           parse(title, res.data);

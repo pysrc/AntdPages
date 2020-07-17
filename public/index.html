@@ -37,6 +37,32 @@
   </body>
 </html>
 <script>
+MathJax = {
+  tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+  startup: {
+    ready: function () {
+      MathJax.startup.defaultReady();
+      document.getElementById('render').disabled = false;
+    }
+  }
+}
+</script>
+<script>
+  function convert() {
+    output = document.getElementById('markdown');
+    MathJax.texReset();
+    MathJax.typesetClear();
+    MathJax.typesetPromise()
+      .catch(function (err) {
+        output.innerHTML = '';
+        output.appendChild(document.createElement('pre')).appendChild(document.createTextNode(err.message));
+      })
+      .then(function() {
+      });
+  }
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
 var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
